@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category-Based Prompt Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f9ff;
+      color: #1f2f3d;
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #3399FF;
+      text-align: center;
+    }
+
+    .category-group {
+      margin: 1.5rem 0;
+    }
+
+    .category-group label {
+      display: block;
+      margin: 0.25rem 0;
+    }
+
+    .sub-category {
+      padding-left: 1.5rem;
+    }
+
+    .settings {
+      margin: 2rem 0;
+    }
+
+    .output {
+      margin-top: 2rem;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    button {
+      background-color: #3399FF;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Category-Based Prompt Generator</h1>
+  <form id="promptForm" onsubmit="return false;">
+    <div class="settings">
+      <strong>Filter by Prompt Type:</strong><br>
+      <label><input type="checkbox" name="tag" value="history"> History</label>
+      <label><input type="checkbox" name="tag" value="media"> Media</label>
+      <label><input type="checkbox" name="tag" value="law"> Law</label>
+      <label><input type="checkbox" name="tag" value="culture"> Culture</label>
+      <label><input type="checkbox" name="tag" value="education"> Education</label>
+      <label><input type="checkbox" name="tag" value="fiction"> Fiction</label>
+      <label><input type="checkbox" name="tag" value="debate"> Debate</label>
+      <label><input type="checkbox" name="tag" value="innovation"> Innovation</label>
+      <label><input type="checkbox" name="tag" value="mystery"> Mystery</label>
+    </div>
+
+    <div class="category-group">
+      <label><input type="checkbox" name="category" value="History"> History</label>
+      <div class="sub-category">
+        <label><input type="checkbox" name="category" value="17th century"> 17th century</label>
+        <label><input type="checkbox" name="category" value="18th century"> 18th century</label>
+        <label><input type="checkbox" name="category" value="19th century"> 19th century</label>
+        <label><input type="checkbox" name="category" value="20th century"> 20th century</label>
+        <label><input type="checkbox" name="category" value="21st century"> 21st century</label>
+      </div>
+      <label><input type="checkbox" name="category" value="Geography"> Geography</label>
+      <div class="sub-category">
+        <label><input type="checkbox" name="category" value="Climate"> Climate</label>
+        <label><input type="checkbox" name="category" value="Topography"> Topography</label>
+        <label><input type="checkbox" name="category" value="Flora"> Flora</label>
+        <label><input type="checkbox" name="category" value="Fauna"> Fauna</label>
+      </div>
+      <label><input type="checkbox" name="category" value="Politics"> Politics</label>
+      <div class="sub-category">
+        <label><input type="checkbox" name="category" value="Administrative Divisions"> Administrative Divisions</label>
+        <label><input type="checkbox" name="category" value="Foreign Relations"> Foreign Relations</label>
+        <label><input type="checkbox" name="category" value="Law Enforcement and Criminal Justice"> Law Enforcement and Criminal Justice</label>
+        <label><input type="checkbox" name="category" value="Fire and Rescue"> Fire and Rescue</label>
+        <label><input type="checkbox" name="category" value="Emergency Management"> Emergency Management</label>
+        <label><input type="checkbox" name="category" value="Toinan Army"> Toinan Army</label>
+        <label><input type="checkbox" name="category" value="Toinan Naval Service"> Toinan Naval Service</label>
+        <label><input type="checkbox" name="category" value="Toinan Air Force"> Toinan Air Force</label>
+      </div>
+      <label><input type="checkbox" name="category" value="Economy"> Economy</label>
+      <label><input type="checkbox" name="category" value="Demographics"> Demographics</label>
+      <label><input type="checkbox" name="category" value="Culture"> Culture</label>
+      <div class="sub-category">
+        <label><input type="checkbox" name="category" value="Indigenous Culture"> Indigenous Culture</label>
+        <label><input type="checkbox" name="category" value="Toinan Culture"> Toinan Culture</label>
+      </div>
+      <label><input type="checkbox" name="category" value="People"> People</label>
+      <label><input type="checkbox" name="category" value="Miscellaneous"> Miscellaneous</label>
+    </div>
+
+    <div class="settings">
+      <strong>How many prompts?</strong><br>
+      <label><input type="radio" name="count" value="1" checked> 1</label>
+      <label><input type="radio" name="count" value="5"> 5</label>
+      <label><input type="radio" name="count" value="10"> 10</label>
+      <label><input type="radio" name="count" value="25"> 25</label>
+      <label><input type="radio" name="count" value="50"> 50</label>
+      <label><input type="radio" name="count" value="75"> 75</label>
+      <label><input type="radio" name="count" value="100"> 100</label>
+    </div>
+
+    <button type="submit">Generate Prompts</button>
+  </form>
+
+  <div class="output" id="promptOutput"></div>
+
+  <script>
+    const templates = [
+      { text: "Describe a major event in ${category}, particularly related to ${context}.", tags: ["history", "event"] },
+      { text: "What role does ${context} play in the broader history of ${category}?", tags: ["history", "analysis"] },
+      { text: "Create a controversy surrounding ${context} in the realm of ${category}.", tags: ["politics", "conflict"] },
+      { text: "Write a fictional excerpt from a document discussing ${context} within ${category}.", tags: ["fiction", "documents"] },
+      { text: "Invent a reform or invention that changes the nature of ${context} in ${category}.", tags: ["innovation", "law", "technology"] },
+      { text: "How might a person involved with ${context} be perceived in different parts of ${category}?", tags: ["people", "culture"] },
+      { text: "Draft a newspaper headline involving ${context} that impacts ${category} dramatically.", tags: ["media", "news"] },
+      { text: "Explain how ${context} evolved over time within ${category}.", tags: ["history", "development"] },
+      { text: "Create a worldbuilding detail that connects ${context} to folklore or superstition in ${category}.", tags: ["folklore", "culture"] },
+      { text: "Construct a debate between two fictional figures about ${context} in ${category}.", tags: ["debate", "dialogue"] },
+      { text: "Write a law or constitutional clause concerning ${context} as it applies to ${category}.", tags: ["law", "policy"] },
+      { text: "What impact did ${context} have on the development of ${category}?", tags: ["cause-effect", "development"] },
+      { text: "Describe a secret or hidden truth involving ${context} and its role in ${category}.", tags: ["mystery", "intrigue"] },
+      { text: "Write the summary of a research paper titled: 'The Role of ${context} in ${category} History.'", tags: ["academic", "history"] },
+      { text: "Imagine a modern controversy or scandal involving ${context} within ${category}.", tags: ["scandal", "contemporary"] },
+      { text: "Develop a news broadcast script reporting an event tied to ${context} in ${category}.", tags: ["media", "script"] },
+      { text: "Write a journal entry from someone directly involved in ${context} within ${category}.", tags: ["personal", "journal"] },
+      { text: "Invent a national holiday inspired by ${context} in the context of ${category}.", tags: ["culture", "tradition"] },
+      { text: "Sketch a political cartoon concept involving ${context} and its perception in ${category}.", tags: ["media", "satire"] },
+      { text: "Imagine an archaeological discovery tied to ${context} that redefines the history of ${category}.", tags: ["discovery", "history"] },
+      { text: "Create a museum exhibit proposal centered on ${context} from ${category}.", tags: ["museum", "presentation"] },
+      { text: "Generate an educational quiz question involving ${context} and its role in ${category}.", tags: ["education", "quiz"] },
+      { text: "Compose a protest chant or slogan tied to a movement around ${context} in ${category}.", tags: ["activism", "slogans"] },
+      { text: "Design a university course title and short description focused on ${context} in ${category}.", tags: ["education", "curriculum"] },
+      { text: "Write a children’s story concept based on ${context} that reflects values from ${category}.", tags: ["story", "youth"] }
+    ];
+
+    let contextWords = {};
+
+fetch('contextWords-full.json')
+  .then(response => response.json())
+  .then(data => {
+    contextWords = data;
+
+    document.getElementById('promptForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const selected = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(c => c.value);
+      const count = parseInt(document.querySelector('input[name="count"]:checked').value);
+      const output = document.getElementById('promptOutput');
+      output.innerHTML = '';
+
+      if (selected.length === 0) {
+        output.innerHTML = '<p>Please select at least one category.</p>';
+        return;
+      }
+
+      const selectedTags = Array.from(document.querySelectorAll('input[name="tag"]:checked')).map(t => t.value);
+      const filteredTemplates = selectedTags.length > 0
+        ? templates.filter(t => t.tags.some(tag => selectedTags.includes(tag)))
+        : templates;
+
+      if (filteredTemplates.length === 0) {
+        output.innerHTML = '<p>No templates match the selected filters.</p>';
+        return;
+      }
+
+      for (let i = 0; i < count; i++) {
+        const category = selected[Math.floor(Math.random() * selected.length)];
+        const contextPool = contextWords[category] || ["an unspecified issue"];
+        const context = contextPool[Math.floor(Math.random() * contextPool.length)];
+        const template = filteredTemplates[Math.floor(Math.random() * filteredTemplates.length)];
+        const prompt = template.text.replace(/\$\{category\}/g, category).replace(/\$\{context\}/g, context);
+        output.innerHTML += `<p><strong>${i + 1}.</strong> ${prompt}</p>`;
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Failed to load contextWords-full.json:', error);
+    alert('Error loading context words. Please check the JSON file.');
+  });
+</script>
+</body>
+</html>

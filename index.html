@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Democratic States of Toin | Worldbuilding Hub</title>
+  <style>
+    :root {
+      --primary-color: #3399FF;
+      --bg-color: #f4f9ff;
+      --text-color: #1f2f3d;
+      --card-bg: #ffffff;
+      --border-radius: 12px;
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background-color: #e0f0ff;
+      padding: 1rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #1a75d1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .card p {
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #d9ecff;
+      color: #555;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Democratic States of Toin</h1>
+    <p>Your gateway into a living, breathing world.</p>
+  </header>
+
+  <nav>
+    <a href="wiki.html">World Wiki</a>
+    <a href="blog.html">Creator's Blog</a>
+    <a href="map.html">Interactive Map</a>
+    <a href="tools/index.html">Tools</a>
+  </nav>
+
+  <main class="container">
+    <section class="card" id="wiki">
+      <h2>World Wiki</h2>
+      <p>Explore the political structures, history, cultures, and geography of Toin. Deep dive into the states, peoples, and major events that shape the nation.</p>
+    </section>
+
+    <section class="card" id="blog">
+      <h2>Creator's Blog</h2>
+      <p>Behind-the-scenes insights, worldbuilding updates, creative decisions, and personal reflections from the sole creator.</p>
+    </section>
+
+    <section class="card" id="map">
+      <h2>Interactive Map</h2>
+      <p>Coming soon: A detailed map of Toin, highlighting its states, landmarks, cities, and natural features.</p>
+    </section>
+
+    <section class="card" id="tools">
+      <h2>Tools</h2>
+      <p>Personal worldbuilding tools.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Democratic States of Toin World Hub | A personal worldbuilding project — created and maintained by its sole author.</p>
+  </footer>
+</body>
+</html>
