@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toin | Out-of-Universe Hub</title>
+  <link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <h1>Toin | Out-of-Universe Hub</h1>
+    </div>
+    <div id="clock-section" class="clock-display"></div>
+  </header>
+
+  <nav class="site-nav">
+    <a href="/blog">BLOG</a>
+    <a href="/map">MAP</a>
+    <a href="/wiki">WIKI</a>
+    <a href="/tools">TOOLS</a>
+    <a href="/create">CREATE A CITIZEN</a>
+  </nav>
+
+  <div class="location-banner">
+    Toin is located at 49° S, 140° W.
+  </div>
+
+<main class="main-content">
+	<div class="wiki-search-wrapper">
+	  <input type="text" id="searchInput" name="q" placeholder="Search the Toin Wiki..." autocomplete="off">
+	  <ul id="searchSuggestions" class="suggestion-list"></ul>
+	</div>
+
+
+  <section class="wiki-home">
+    <div class="welcome-box">
+      <h2>Welcome to the Toin Wiki</h2>
+      <p>The <strong>Toin Wiki</strong> is a curated reference for the world of Toin, written and maintained by a single author. It currently contains <strong>0 articles</strong>, serving as a scaffold for future development on the history, politics, geography, language, and culture of Toin.</p>
+    </div>
+
+    <div class="main-wiki-columns">
+      <!-- LEFT COLUMN -->
+      <div class="column-left">
+        <section class="wiki-box">
+          <h3>Featured Concept</h3>
+          <div class="featured-content">
+            <p><strong>The Great Charter of 1847</strong> established Toin as a federal constitutional republic. Drafted after decades of home rule, it unified the states under democratic principles and remains the nation's foundational document.</p>
+            <a href="#">(Article not yet written)</a>
+          </div>
+        </section>
+
+        <section class="wiki-box">
+          <h3>Historical Note</h3>
+          <ul>
+            <li>The Dutch abandoned Toin in <strong>1697</strong> after two decades of tenuous presence.</li>
+            <li>The British rediscovered the archipelago in <strong>1701</strong> and began settlement at <strong>Fort Endeavour</strong> in 1703.</li>
+            <li>Toin gained home rule in <strong>1822</strong> and full independence with the Great Charter in <strong>1847</strong>.</li>
+          </ul>
+        </section>
+
+        <section class="wiki-box">
+          <h3>Did You Know?</h3>
+          <ul>
+            <li>...that the <strong>Toinan pound</strong> is the official and only currency of Toin?</li>
+            <li>...that <strong>Táčakyáwt</strong> uses carved symbols on Memory Trees and Totem Poles instead of writing?</li>
+            <li>...that each carving must be decided through a communal consensus process that can take weeks?</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="column-right">
+        <section class="wiki-box">
+          <h3>On This Day</h3>
+          <p><strong>May 3</strong>: In 1864, during the peak of the wet season, the Department of Public Works was formally established by the National Assembly—a rare example of legislative progress in Toin's storm season.</p>
+        </section>
+
+        <section class="wiki-box">
+          <h3>Language Spotlight</h3>
+          <p><strong>Táčakyáwt</strong> is the ancestral language of the Indigenous peoples of Toin. It relies on oral transmission and communal debate, with sacred memory encoded in carved wood rather than text.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+
+  <footer class="site-footer">
+    <div>
+      <a href="/index/directory.html">Directory</a>
+      <a href="/index/about.html">About</a>
+    </div>
+    <div>&copy; <span id="year"></span> Toin | Out-of-Universe Hub. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function getFirstFullWeekSaturday(year, monthIndex) {
+      const first = new Date(Date.UTC(year, monthIndex, 1));
+      const firstWeekday = first.getUTCDay();
+      const offset = firstWeekday === 0 ? 6 : 13 - firstWeekday;
+      return new Date(Date.UTC(year, monthIndex, offset, 12));
+    }
+
+    function getLastFullWeekSaturday(year, monthIndex) {
+      const last = new Date(Date.UTC(year, monthIndex + 1, 0));
+      const lastWeekday = last.getUTCDay();
+      const offset = lastWeekday === 6 ? 0 : lastWeekday + 1;
+      return new Date(Date.UTC(year, monthIndex + 1, 0 - offset, 12));
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      const year = now.getUTCFullYear();
+
+      const dstStart = getFirstFullWeekSaturday(year, 10); // Nov
+      const dstEnd = getLastFullWeekSaturday(year, 2); // March
+      const isToinDST = now >= dstStart || now < dstEnd;
+      const toinOffset = isToinDST ? -8 : -9;
+
+      const jan = new Date(now.getFullYear(), 0, 1);
+      const jul = new Date(now.getFullYear(), 6, 1);
+      const standardOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+      const isLocalDST = now.getTimezoneOffset() < standardOffset;
+
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const toinDate = new Date(utc + toinOffset * 3600000);
+
+      const diffHours = Math.round((toinDate - now) / 3600000);
+      const direction = diffHours > 0 ? 'BEHIND' : 'AHEAD';
+      const ofText = direction === 'AHEAD' ? ' of Toin' : '';
+      const timeDiffString = `You are ${Math.abs(diffHours)} hours ${direction}${ofText}`;
+
+      document.getElementById('clock-section').innerHTML = `
+        <div><strong>Your Local Time:</strong> ${now.toLocaleString()}</div>
+        <div><strong>Time in Toin:</strong> ${toinDate.toLocaleString()}</div>
+        <div><strong>${timeDiffString}</strong></div>
+        ${isToinDST ? '<div class="dst-warning">DST in effect in Toin</div>' : ''}
+        ${isLocalDST ? '<div class="dst-warning">DST in effect at your location</div>' : ''}
+      `;
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  
+<script>
+  let articleIndex = [];
+
+  async function loadIndex() {
+    try {
+      const res = await fetch("/articles/index.json");
+      if (!res.ok) throw new Error("Could not load index");
+      articleIndex = await res.json();
+    } catch (e) {
+      console.error("Error loading article index:", e);
+    }
+  }
+
+  function createSuggestionItem(slug) {
+    const li = document.createElement("li");
+    li.className = "suggestion-item";
+
+    const link = document.createElement("a");
+    link.href = `/articles/${slug}.html`;
+
+    const title = document.createElement("div");
+    title.className = "suggestion-title";
+    title.textContent = slug.replace(/-/g, " ");
+
+    const desc = document.createElement("div");
+    desc.className = "suggestion-description";
+    desc.textContent = "Article in the Toin Wiki"; // Optional placeholder
+
+    link.appendChild(title);
+    link.appendChild(desc);
+    li.appendChild(link);
+    return li;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("searchInput");
+    const suggestionBox = document.getElementById("searchSuggestions");
+
+    loadIndex();
+
+    input.addEventListener("input", () => {
+      const query = input.value.trim().toLowerCase();
+      suggestionBox.innerHTML = "";
+
+      if (!query || articleIndex.length === 0) return;
+
+      const matches = articleIndex.filter(slug => slug.includes(query)).slice(0, 10);
+
+      if (matches.length === 0) {
+        const li = document.createElement("li");
+        li.className = "suggestion-empty";
+        li.textContent = `No articles matching "${query}"`;
+        suggestionBox.appendChild(li);
+        return;
+      }
+
+      matches.forEach(slug => {
+        suggestionBox.appendChild(createSuggestionItem(slug));
+      });
+    });
+
+    // Hide suggestions on blur
+    input.addEventListener("blur", () => {
+      setTimeout(() => suggestionBox.innerHTML = "", 150);
+    });
+  });
+</script>
+</body>
+</html>

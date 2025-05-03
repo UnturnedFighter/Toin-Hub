@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toin | Out-of-Universe Hub</title>
+  <link rel="stylesheet" href="../../css/global.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <h1>Toin | Out-of-Universe Hub</h1>
+    </div>
+    <div id="clock-section" class="clock-display"></div>
+  </header>
+
+  <nav class="site-nav">
+    <a href="/blog">BLOG</a>
+    <a href="/map">MAP</a>
+    <a href="/wiki">WIKI</a>
+    <a href="/tools">TOOLS</a>
+    <a href="/create">CREATE A CITIZEN</a>
+  </nav>
+
+  <div class="location-banner">
+    Toin is located at 49° S, 140° W.
+  </div>
+
+<main class="main-content wiki-article">
+  <div class="article-container">
+    <header class="article-header">
+      <h1 class="article-title">Article Title</h1>
+      <div class="article-subtitle"><strong>Last updated on</strong> May 3, 2025
+	  <strong>By:</strong> Richard MacKenzie</div>
+    </header>
+
+    <div class="article-grid">
+      <!-- Table of Contents -->
+		<nav class="article-toc">
+		  <h2>Jump to</h2>
+		  <ul id="toc-list">
+			<!-- Filled by JavaScript -->
+		  </ul>
+		</nav>
+
+      <!-- Article Content -->
+      <article class="article-content">
+        <p><strong>Article Title</strong> is a...</p>
+      </article>
+
+      <!-- Infobox -->
+<aside class="article-infobox">
+  <table class="infobox">
+    <caption><strong>Infobox Title<strong></caption>
+    <tbody>
+      <tr>
+        <td colspan="2" style="text-align:center">
+          <img src="INSERT ASSET HERE" alt="INSERT HOVER ALT HERE" style="max-width:100%">
+          <div class="infobox-img-caption"><i>Caption</i></div>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2" class="infobox-heading">Header</th>
+      </tr>
+      <tr>
+        <td class="infobox-label"><strong>Header</strong></td>
+        <td class="infobox-data">Answer</td>
+      </tr>
+    </tbody>
+  </table>
+</aside>
+    </div>
+  </div>
+</main>
+
+
+
+  <footer class="site-footer">
+    <div>
+      <a href="/index/directory.html">Directory</a>
+      <a href="/index/about.html">About</a>
+    </div>
+    <div>&copy; <span id="year"></span> Toin | Out-of-Universe Hub. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function getFirstFullWeekSaturday(year, monthIndex) {
+      const first = new Date(Date.UTC(year, monthIndex, 1));
+      const firstWeekday = first.getUTCDay();
+      const offset = firstWeekday === 0 ? 6 : 13 - firstWeekday;
+      return new Date(Date.UTC(year, monthIndex, offset, 12));
+    }
+
+    function getLastFullWeekSaturday(year, monthIndex) {
+      const last = new Date(Date.UTC(year, monthIndex + 1, 0));
+      const lastWeekday = last.getUTCDay();
+      const offset = lastWeekday === 6 ? 0 : lastWeekday + 1;
+      return new Date(Date.UTC(year, monthIndex + 1, 0 - offset, 12));
+    }
+
+    function updateClocks() {
+      const now = new Date();
+      const year = now.getUTCFullYear();
+
+      const dstStart = getFirstFullWeekSaturday(year, 10); // Nov
+      const dstEnd = getLastFullWeekSaturday(year, 2); // March
+      const isToinDST = now >= dstStart || now < dstEnd;
+      const toinOffset = isToinDST ? -8 : -9;
+
+      const jan = new Date(now.getFullYear(), 0, 1);
+      const jul = new Date(now.getFullYear(), 6, 1);
+      const standardOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+      const isLocalDST = now.getTimezoneOffset() < standardOffset;
+
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const toinDate = new Date(utc + toinOffset * 3600000);
+
+      const diffHours = Math.round((toinDate - now) / 3600000);
+      const direction = diffHours > 0 ? 'BEHIND' : 'AHEAD';
+      const ofText = direction === 'AHEAD' ? ' of Toin' : '';
+      const timeDiffString = `You are ${Math.abs(diffHours)} hours ${direction}${ofText}`;
+
+      document.getElementById('clock-section').innerHTML = `
+        <div><strong>Your Local Time:</strong> ${now.toLocaleString()}</div>
+        <div><strong>Time in Toin:</strong> ${toinDate.toLocaleString()}</div>
+        <div><strong>${timeDiffString}</strong></div>
+        ${isToinDST ? '<div class="dst-warning">DST in effect in Toin</div>' : ''}
+        ${isLocalDST ? '<div class="dst-warning">DST in effect at your location</div>' : ''}
+      `;
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  .article-toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.article-toc li {
+  margin: 0.4rem 0;
+}
+
+.article-toc .toc-h2 {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.article-toc .toc-h3 {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+</body>
+</html>
