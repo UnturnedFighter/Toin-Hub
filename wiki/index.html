@@ -15,11 +15,11 @@
   </header>
 
   <nav class="site-nav">
-    <a href="/blog">BLOG</a>
-    <a href="/map">MAP</a>
-    <a href="/wiki">WIKI</a>
-    <a href="/tools">TOOLS</a>
-    <a href="/create">CREATE A CITIZEN</a>
+    <a href="/blog/index.html">BLOG</a>
+    <a href="/map/index.html">MAP</a>
+    <a href="/wiki/index.html">WIKI</a>
+    <a href="/worldbuilding-tools/index.html">TOOLS</a>
+    <a href="/create/index.html">CREATE A CITIZEN</a>
   </nav>
 
   <div class="location-banner">
@@ -151,7 +151,7 @@
 
   async function loadIndex() {
     try {
-      const res = await fetch("/articles/index.json");
+      const res = await fetch("`${BASE_PATH}/wiki/articles/index.json");
       if (!res.ok) throw new Error("Could not load index");
       articleIndex = await res.json();
     } catch (e) {
